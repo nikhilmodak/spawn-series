@@ -1,6 +1,6 @@
 {
   "name": "spawn-series",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "author": "nikhilmodak",
   "description": "spawn commands in series",
   "main": "index",

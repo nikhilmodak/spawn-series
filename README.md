@@ -22,14 +22,23 @@ This should be an array of objects in the format:
 [
 	{
 		command: 'command1' // command to execute
-		args: ['arg1', 'arg2', 'arg3'] // optional arguments for command
+		args: ['arg1', 'arg2', 'arg3'], // optional arguments for command
+		when: function (i, cmdObj) { // optional function to decide if command should be executed
+			return evaluateCondition();
+		}
 	},
 	{
-		command: 'command2'
+		command: 'command2',
 		args: ['arg1', 'arg2', 'arg3']
+	},
+	{
+		command: 'command3'
 	}
 ]
 ```
+
+Each object should contain a **command** to be run and may contain optional array of **args** and an optional **when** function that evaluates a condition to whether to run or skip this command execution.
+
 #### options
 
 Optional options to be passed to child_process.spawn
@@ -66,31 +75,41 @@ var spawnSeries = require('spawn-series');
 spawnSeries(
 	[
 		{
+			command: 'git',
+			args: ['clone', 'git@github.com:someid/somerepo.git']
+		},
+		{
 			command: 'npm',
-			args: ['install']
+			args: ['install'],
+			when: function () {
+				return fs.existsSync('./some-repo/package.json');
+			}
 		},
 		{
 			command: 'bower',
-			args: ['install']
+			args: ['install'],
+			when: function () {
+				return fs.existsSync('./some-repo/bower.json');
+			}
 		}
 	],
 	{
-		cwd: './downloaded-repo',
+		cwd: './some-repo',
     stdio: 'inherit'
 	},
 	function (code, i, cmdObj) {
 		//finish callback
 		if (code === 0) {
-			console.log('Finished setting up downloaded-repo');
+			console.log('Finished setting up some-repo');
 		} else {
-			console.log('Error while setting up downloaded-repo');
+			console.log('Error while setting up some-repo in command: ' + cmdObj.command);
 		}
 	},
 	function (child, i, cmdObj) {
 		//foreach callback
-		console.log('Starting: ' + command.command + ' ' + command.args.join(' '));
+		console.log('Starting: ' + cmdObj.command + ' ' + cmdObj.args.join(' '));
 		child.on('close', function (code) {
-			console.log('Finished: ' + command.command + ' ' + command.args.join(' '));
+			console.log('Finished: ' + cmdObj.command + ' ' + cmdObj.args.join(' '));
 		});
 	}
 )

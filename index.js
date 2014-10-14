@@ -16,19 +16,24 @@ module.exports = function (commands, options, finish, foreach) {
   var stderrs = [];
   function start(i) {
     if (i < commands.length) {
-      var child = spawn(commands[i].command, commands[i].args, options);
-      if (foreach) {
-        foreach(child, i, commands[i]);
-      }
-      child.on('close', function (code) {
-        if (code === 0) {
-          start(i + 1);
-        } else {
-          if (finish) {
-            finish(code, i, commands[i]);
-          }
+      if (!commands[i].when || commands[i].when(i, commands[i])) {
+        var child = spawn(commands[i].command, commands[i].args, options);
+        if (foreach) {
+          foreach(child, i, commands[i]);
         }
-      });
+        child.on('close', function (code) {
+          if (code === 0) {
+            start(i + 1);
+          } else {
+            if (finish) {
+              finish(code, i, commands[i]);
+            }
+          }
+        });
+      } else {
+        //skip if condition is not stisfied
+        start(i + 1);
+      }
     } else {
       if (finish) {
         finish(0);
