@@ -1,8 +1,8 @@
 {
   "name": "spawn-series",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "nikhilmodak",
-  "description": "spwan commands in series",
+  "description": "spawn commands in series",
   "main": "index",
   "repository": {
     "type": "git",
@@ -26,8 +26,8 @@
     "should": "~2.1.0"
   },
   "engines": {
-    "node": ">=0.9.0",
-    "npm": ">=1.2.10"
+    "node": ">=0.10.0",
+    "npm": ">=1.4.3"
   },
   "scripts": {
     "test": "istanbul test _mocha --report html -- test/*.js --reporter spec",
