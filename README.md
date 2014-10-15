@@ -11,7 +11,7 @@ npm install --save spawn-series
 ## API
 
 ```js
-spawnSeries(commands [, options] [, finish] [, foreach])
+spawnSeries(commands [, finish [, foreach]] )
 ```
 ### Arguments
 
