@@ -1,6 +1,6 @@
 {
   "name": "spawn-series",
-  "version": "0.1.3",
+  "version": "0.2.0",
   "author": "nikhilmodak",
   "description": "spawn commands in series",
   "main": "index",
@@ -22,7 +22,6 @@
     "coveralls": "*",
     "mocha-lcov-reporter": "*",
     "istanbul": "*",
-    "event-stream": "*",
     "should": "~2.1.0"
   },
   "engines": {

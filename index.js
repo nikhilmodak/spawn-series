@@ -2,22 +2,16 @@
 
 var spawn = require('child_process').spawn;
 
-module.exports = function (commands, options, finish, foreach) {
+module.exports = function (commands, finish, foreach) {
   if (!(commands instanceof Array)) {
     throw new Error('First argument should be an array.');
   }
-  if (typeof options === 'function') {
-    foreach = finish;
-    finish = options;
-    options = {};
-  }
-
   var stdouts = [];
   var stderrs = [];
   function start(i) {
     if (i < commands.length) {
       if (!commands[i].when || commands[i].when(i, commands[i])) {
-        var child = spawn(commands[i].command, commands[i].args, options);
+        var child = spawn(commands[i].command, commands[i].args, commands[i].options);
         if (foreach) {
           foreach(child, i, commands[i]);
         }

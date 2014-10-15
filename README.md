@@ -22,7 +22,10 @@ This should be an array of objects in the format:
 [
 	{
 		command: 'command1' // command to execute
-		args: ['arg1', 'arg2', 'arg3'], // optional arguments for command
+		args: ['arg1', 'arg2', 'arg3'], // optional arguments for command,
+		options: {
+			// options for child_process.spawn
+		},
 		when: function (i, cmdObj) { // optional function to decide if command should be executed
 			return evaluateCondition();
 		}
@@ -37,11 +40,11 @@ This should be an array of objects in the format:
 ]
 ```
 
-Each object should contain a **command** to be run and may contain optional array of **args** and an optional **when** function that evaluates a condition to whether to run or skip this command execution.
-
-#### options
-
-Optional options to be passed to child_process.spawn
+Each object should contain a  
+**command** to be run and may contain  
+**args** *[optional]* an array of arguments for command  
+**options** *[optional]* options to be passed to child_process.spawn  
+**when** *[optional]* a function that evaluates a condition to whether to run or skip this command execution.
 
 #### finish
 
@@ -75,8 +78,19 @@ var spawnSeries = require('spawn-series');
 spawnSeries(
 	[
 		{
+			command: 'git',
+			args: ['clone', 'git@github.com:someid/somerepo.git'],
+			options: {
+		    stdio: 'inherit'
+			}
+		},
+		{
 			command: 'npm',
 			args: ['install'],
+			options: {
+				cwd: './some-repo',
+				stdio: 'inherit'
+			},
 			when: function () {
 				return fs.existsSync('./some-repo/package.json');
 			}
@@ -84,15 +98,15 @@ spawnSeries(
 		{
 			command: 'bower',
 			args: ['install'],
+			options: {
+				cwd: './some-repo',
+				stdio: 'inherit'
+			},
 			when: function () {
 				return fs.existsSync('./some-repo/bower.json');
 			}
 		}
 	],
-	{
-		cwd: './some-repo',
-		stdio: 'inherit'
-	},
 	function (code, i, cmdObj) {
 		//finish callback
 		if (code === 0) {
