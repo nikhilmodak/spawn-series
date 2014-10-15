@@ -75,10 +75,6 @@ var spawnSeries = require('spawn-series');
 spawnSeries(
 	[
 		{
-			command: 'git',
-			args: ['clone', 'git@github.com:someid/somerepo.git']
-		},
-		{
 			command: 'npm',
 			args: ['install'],
 			when: function () {
@@ -95,7 +91,7 @@ spawnSeries(
 	],
 	{
 		cwd: './some-repo',
-    stdio: 'inherit'
+		stdio: 'inherit'
 	},
 	function (code, i, cmdObj) {
 		//finish callback
