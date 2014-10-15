@@ -81,7 +81,7 @@ spawnSeries(
 			command: 'git',
 			args: ['clone', 'git@github.com:someid/somerepo.git'],
 			options: {
-		    stdio: 'inherit'
+				stdio: 'inherit'
 			}
 		},
 		{
