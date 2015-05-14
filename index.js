@@ -16,7 +16,7 @@ module.exports = function (commands, finish, foreach) {
           foreach(child, i, commands[i]);
         }
         child.on('close', function (code) {
-          if (code === 0) {
+          if (code === 0 || commands[i].options.ignoreError) {
             start(i + 1);
           } else {
             if (finish) {
