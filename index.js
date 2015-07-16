@@ -1,6 +1,6 @@
 'use strict'
 
-var spawn = require('child_process').spawn;
+var spawn = require('cross-spawn').spawn;
 
 module.exports = function (commands, finish, foreach) {
   if (!(commands instanceof Array)) {

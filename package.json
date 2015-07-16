@@ -1,6 +1,6 @@
 {
   "name": "spawn-series",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "author": "nikhilmodak",
   "description": "spawn commands in series",
   "main": "index",
@@ -16,7 +16,9 @@
   ],
   "license": "MIT",
   "readmeFilename": "README.md",
-  "dependencies": {},
+  "dependencies": {
+    "cross-spawn": "^1.0.3"
+  },
   "devDependencies": {
     "mocha": "*",
     "coveralls": "*",
